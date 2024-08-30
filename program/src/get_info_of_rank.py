@@ -4,7 +4,7 @@ from src.read_data import *
 from src.get_batchneigh import *
 from src.com import *
 
-def get_info_of_rank(range_rank,atom,atomtype,mass,numatoms,scalmatrix,period_table,coor,force,\
+def get_info_of_rank(range_rank,atom,atomtype,mass,mol,numatoms,scalmatrix,period_table,coor,force,\
 start_table,table_coor,neigh_atoms,batchsize,cutoff,device,np_dtype):
     atom_rank=atom[range_rank[0]:range_rank[1]]
     mass_rank=mass[range_rank[0]:range_rank[1]]
@@ -28,6 +28,7 @@ start_table,table_coor,neigh_atoms,batchsize,cutoff,device,np_dtype):
     com_coor_rank=torch.from_numpy(com_coor_rank)
     cell_rank=torch.from_numpy(cell_rank)
     numatoms_rank=torch.from_numpy(numatoms_rank)
+    mol_rank=torch.from_numpy(np.array(np.ceil(mol/np.max(mol))[range_rank[0]:range_rank[1]],dtype=np.int64))
     pbc_rank=torch.from_numpy(np.array(period_table[range_rank[0]:range_rank[1]],dtype=np.int64))
     shifts_rank,atom_index_rank=get_batch_neigh(com_coor_rank,cell_rank,species_rank,pbc_rank,neigh_atoms,batchsize,cutoff,device)
-    return com_coor_rank,order_force_rank,numatoms_rank,species_rank,atom_index_rank,shifts_rank
+    return com_coor_rank,order_force_rank,mol_rank,numatoms_rank,species_rank,atom_index_rank,shifts_rank

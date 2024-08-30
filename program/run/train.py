@@ -36,11 +36,20 @@ elif start_table==4:
     import pol.script_PES as PES_Normal
 
 #==============================train data loader===================================
-dataloader_train=DataLoader(com_coor_train,abpropset_train,numatoms_train,\
-species_train,atom_index_train,shifts_train,batchsize,shuffle=False)
+dataloader_train=DataLoader(com_coor_train,com_coor_A_train,com_coor_B_train,com_coor_C_train,com_coor_D_train,com_coor_E_train,com_coor_F_train,com_coor_G_train,\
+                            numatoms_train,numatoms_A_train,numatoms_B_train,numatoms_C_train,numatoms_D_train,numatoms_E_train,numatoms_F_train,numatoms_G_train,\
+                            species_train,species_A_train,species_B_train,species_C_train,species_D_train,species_E_train,species_F_train,species_G_train,\
+                            atom_index_train,atom_A_index_train,atom_B_index_train,atom_C_index_train,atom_D_index_train,atom_E_index_train,atom_F_index_train,atom_G_index_train,\
+                            shifts_train,shifts_A_train,shifts_B_train,shifts_C_train,shifts_D_train,shifts_E_train,shifts_F_train,shifts_G_train,\
+                            abpropset_train,mol_train,batchsize_train,shuffle=True)
 #=================================test data loader=================================
-dataloader_test=DataLoader(com_coor_test,abpropset_test,numatoms_test,\
-species_test,atom_index_test,shifts_test,batchsize,shuffle=False)
+dataloader_test=DataLoader(com_coor_test,com_coor_A_test,com_coor_B_test,com_coor_C_test,com_coor_D_test,com_coor_E_test,com_coor_F_test,com_coor_G_test,\
+                            numatoms_test,numatoms_A_test,numatoms_B_test,numatoms_C_test,numatoms_D_test,numatoms_E_test,numatoms_F_test,numatoms_G_test,\
+                            species_test,species_A_test,species_B_test,species_C_test,species_D_test,species_E_test,species_F_test,species_G_test,\
+                            atom_index_test,atom_A_index_test,atom_B_index_test,atom_C_index_test,atom_D_index_test,atom_E_index_test,atom_F_index_test,atom_G_index_test,\
+                            shifts_test,shifts_A_test,shifts_B_test,shifts_C_test,shifts_D_test,shifts_E_test,shifts_F_test,shifts_G_test,\
+                            abpropset_test,mol_test,batchsize_test,shuffle=False)
+
 # dataloader used for load the mini-batch data
 if torch.cuda.is_available(): 
     data_train=CudaDataLoader(dataloader_train,device,queue_size=queue_size)

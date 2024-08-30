@@ -4,7 +4,7 @@ Embedded Atom Neural Network with Physical Meaning
 ___________________________
 Embedded Atomic Neural Network (EANN) is a physically-inspired neural network framework. The EANN package is implemented using the PyTorch framework used to train interatomic potentials, dipole moments, transition dipole moments and polarizabilities of various systems. All optimizable parameters can be optimized by making use of the Autograd embedded in PyTorch on multiple GPUs or CPUs. In addition, the EANN package has been interfaced with LAMMPS and is used for high efficiency MD simulation in both the GPU and CPU with high parallel efficiency. Details about the setup of training and inference can be found in the "program/manual" folder.
 
-PS: This version is for traininig intermolecular interaction energy. 
+**PS: This version is for traininig intermolecular interaction energy.** 
 
 **3. Requirements:**
 ___________________________________

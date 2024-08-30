@@ -15,8 +15,21 @@ Prop_class,loss_fn,optim,scheduler,ema,PES_Normal,device,PES_Lammps=None):
        Prop_class.train()
        lossprop=torch.zeros(nprop,device=device)        
        for data in data_train:
-          abProp,cart,numatoms,species,atom_index,shifts=data
-          loss=loss_fn(Prop_class(cart,numatoms,species,atom_index,shifts),abProp)
+          abProp,mol,cart,cart_A,cart_B,cart_C,cart_D,cart_E,cart_F,cart_G,\
+          numatoms,numatoms_A,numatoms_B,numatoms_C,numatoms_D,numatoms_E,numatoms_F,numatoms_G,\
+          species,species_A,species_B,species_C,species_D,species_E,species_F,species_G,\
+          atom_index,atom_index_A,atom_index_B,atom_index_C,atom_index_D,atom_index_E,atom_index_F,atom_index_G,\
+          shifts,shifts_A,shifts_B,shifts_C,shifts_D,shifts_E,shifts_F,shifts_G=data
+          loss=loss_fn(Prop_class(cart,numatoms,species,atom_index,shifts),\
+                        Prop_class(cart_A,numatoms_A,species_A,atom_index_A,shifts_A),\
+                        Prop_class(cart_B,numatoms_B,species_B,atom_index_B,shifts_B),\
+                        Prop_class(cart_C,numatoms_C,species_C,atom_index_C,shifts_C),\
+                        Prop_class(cart_D,numatoms_D,species_D,atom_index_D,shifts_D),\
+                        Prop_class(cart_E,numatoms_E,species_E,atom_index_E,shifts_E),\
+                        Prop_class(cart_F,numatoms_F,species_F,atom_index_F,shifts_F),\
+                        Prop_class(cart_G,numatoms_G,species_G,atom_index_G,shifts_G),\
+                        mol,\
+                        abProp)
           lossprop+=loss.detach()
           loss=torch.sum(torch.mul(loss,prop_ceff[0:nprop]))
           # clear the gradients of param
@@ -52,10 +65,27 @@ Prop_class,loss_fn,optim,scheduler,ema,PES_Normal,device,PES_Lammps=None):
           # calculate the test error
           lossprop=torch.zeros(nprop,device=device)
           for data in data_test:
-             abProp,cart,numatoms,species,atom_index,shifts=data
-             loss=loss_fn(Prop_class(cart,numatoms,species,atom_index,shifts,\
-             create_graph=False),abProp)
-             lossprop=lossprop+loss.detach()
+            abProp,mol,cart,cart_A,cart_B,cart_C,cart_D,cart_E,cart_F,cart_G,\
+            numatoms,numatoms_A,numatoms_B,numatoms_C,numatoms_D,numatoms_E,numatoms_F,numatoms_G,\
+            species,species_A,species_B,species_C,species_D,species_E,species_F,species_G,\
+            atom_index,atom_index_A,atom_index_B,atom_index_C,atom_index_D,atom_index_E,atom_index_F,atom_index_G,\
+            shifts,shifts_A,shifts_B,shifts_C,shifts_D,shifts_E,shifts_F,shifts_G=data
+            loss=loss_fn(Prop_class(cart,numatoms,species,atom_index,shifts),\
+                            Prop_class(cart_A,numatoms_A,species_A,atom_index_A,shifts_A),\
+                            Prop_class(cart_B,numatoms_B,species_B,atom_index_B,shifts_B),\
+                            Prop_class(cart_C,numatoms_C,species_C,atom_index_C,shifts_C),\
+                            Prop_class(cart_D,numatoms_D,species_D,atom_index_D,shifts_D),\
+                            Prop_class(cart_E,numatoms_E,species_E,atom_index_E,shifts_E),\
+                            Prop_class(cart_F,numatoms_F,species_F,atom_index_F,shifts_F),\
+                            Prop_class(cart_G,numatoms_G,species_G,atom_index_G,shifts_G),\
+                            mol,\
+                            abProp)
+            lossprop=lossprop+loss.detach()
+        #   for data in data_test:
+        #      abProp,cart,numatoms,species,atom_index,shifts=data
+        #      loss=loss_fn(Prop_class(cart,numatoms,species,atom_index,shifts,\
+        #      create_graph=False),abProp)
+        #      lossprop=lossprop+loss.detach()
 
           # all_reduce the rmse
           dist.all_reduce(lossprop,op=dist.ReduceOp.SUM)

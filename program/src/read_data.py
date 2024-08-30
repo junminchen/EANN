@@ -11,6 +11,7 @@ def Read_data(floderlist,nprob,start_table=None):
     mass=[]
     numatoms=[]
     period_table=[]
+    mol=[]
     # tmp variable
     #===================variable for force====================
     if start_table==1:
@@ -36,6 +37,9 @@ def Read_data(floderlist,nprob,start_table=None):
                 string=f1.readline()
                 m=list(map(float,string.split()[1:4]))
                 period_table.append(m)
+                string=f1.readline()
+                m=list(map(int,string.split()[1:8]))
+                mol.append(m)
                 coor.append([])
                 mass.append([])
                 atom.append([])
@@ -60,4 +64,4 @@ def Read_data(floderlist,nprob,start_table=None):
                 numpoint[ifloder]+=1
                 numatoms.append(len(atom[num]))
                 num+=1
-    return numpoint,atom,mass,numatoms,scalmatrix,period_table,coor,abprop,force
+    return numpoint,atom,mass,numatoms,scalmatrix,period_table,coor,abprop,force,mol
